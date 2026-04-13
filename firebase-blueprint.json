@@ -1,0 +1,95 @@
+{
+  "entities": {
+    "User": {
+      "title": "User",
+      "description": "App user profile, can be a passenger or a driver.",
+      "type": "object",
+      "properties": {
+        "uid": { "type": "string", "description": "Firebase Auth UID" },
+        "displayName": { "type": "string" },
+        "email": { "type": "string", "format": "email" },
+        "photoURL": { "type": "string" },
+        "role": { "type": "string", "enum": ["passenger", "driver", "admin"] },
+        "phoneNumber": { "type": "string" },
+        "createdAt": { "type": "string", "format": "date-time" }
+      },
+      "required": ["uid", "role", "email"]
+    },
+    "Ride": {
+      "title": "Ride",
+      "description": "A ride request and its lifecycle.",
+      "type": "object",
+      "properties": {
+        "passengerId": { "type": "string" },
+        "driverId": { "type": "string" },
+        "pickupLocation": {
+          "type": "object",
+          "properties": {
+            "address": { "type": "string" },
+            "lat": { "type": "number" },
+            "lng": { "type": "number" }
+          }
+        },
+        "destinationLocation": {
+          "type": "object",
+          "properties": {
+            "address": { "type": "string" },
+            "lat": { "type": "number" },
+            "lng": { "type": "number" }
+          }
+        },
+        "status": {
+          "type": "string",
+          "enum": ["requested", "accepted", "ongoing", "completed", "cancelled"]
+        },
+        "price": { "type": "number" },
+        "distance": { "type": "string" },
+        "duration": { "type": "string" },
+        "createdAt": { "type": "string", "format": "date-time" },
+        "acceptedAt": { "type": "string", "format": "date-time" },
+        "completedAt": { "type": "string", "format": "date-time" }
+      },
+      "required": ["passengerId", "pickupLocation", "destinationLocation", "status", "createdAt"]
+    },
+    "DriverStatus": {
+      "title": "DriverStatus",
+      "description": "Real-time status and location of a driver.",
+      "type": "object",
+      "properties": {
+        "uid": { "type": "string" },
+        "isOnline": { "type": "boolean" },
+        "currentLocation": {
+          "type": "object",
+          "properties": {
+            "lat": { "type": "number" },
+            "lng": { "type": "number" }
+          }
+        },
+        "lastUpdated": { "type": "string", "format": "date-time" },
+        "vehicleInfo": {
+          "type": "object",
+          "properties": {
+            "model": { "type": "string" },
+            "plate": { "type": "string" },
+            "color": { "type": "string" }
+          }
+        }
+      },
+      "required": ["uid", "isOnline", "lastUpdated"]
+    }
+  },
+  "firestore": {
+    "/users/{userId}": {
+      "schema": "User",
+      "description": "User profile documents."
+    },
+    "/rides/{rideId}": {
+      "schema": "Ride",
+      "description": "Ride request documents."
+    },
+    "/driverStatus/{driverId}": {
+      "schema": "DriverStatus",
+      "description": "Real-time driver status and location."
+    }
+  }
+}

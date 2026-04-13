@@ -1,0 +1,6 @@
+{
+  "name": "Amuvi",
+  "description": "Um aplicativo de transporte completo com interfaces para motoristas e passageiros, chat de suporte com IA e rastreamento em tempo real.",
+  "requestFramePermissions": ["geolocation"],
+  "majorCapabilities": []
+}
